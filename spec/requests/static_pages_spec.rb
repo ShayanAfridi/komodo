@@ -6,8 +6,8 @@ describe "Static pages" do
 
 		it "should have the content 'Sample App'" do
 
-			visit root_path
-			expect(page).to have_content("Sample App")
+			visit '/static_pages/home'
+			page.should have_content('Sample App')
 		end
 	end
 end
