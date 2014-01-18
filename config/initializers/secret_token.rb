@@ -9,4 +9,19 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Komodo::Application.config.secret_key_base = '2d014b1cbad49676d5619d3b4a3973a1ed767d4a0704238809d17606b2ef817cc7445172e10ec3846e6c24000884ff90dc1b6da7071047639387a44b6ee6e4fe'
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+Komodo::Application.config.secret_key_base = secure_token
